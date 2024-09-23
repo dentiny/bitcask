@@ -1,0 +1,116 @@
+commit 2bfc950be20f10cb190d84c9eff1670ad9f9d89f
+Author: dentiny <1910821171@qq.com>
+Date:   Wed Feb 7 08:17:25 2024 +0000
+
+    remove wasm platform config
+
+diff --git a/absl/BUILD.bazel b/absl/BUILD.bazel
+index 253c0aef..ad9b1181 100644
+--- a/absl/BUILD.bazel
++++ b/absl/BUILD.bazel
+@@ -90,49 +90,6 @@ config_setting(
+     visibility = [":__subpackages__"],
+ )
+ 
+-config_setting(
+-    name = "cpu_wasm",
+-    values = {
+-        "cpu": "wasm",
+-    },
+-    visibility = [":__subpackages__"],
+-)
+-
+-config_setting(
+-    name = "cpu_wasm32",
+-    values = {
+-        "cpu": "wasm32",
+-    },
+-    visibility = [":__subpackages__"],
+-)
+-
+-config_setting(
+-    name = "platforms_wasm32",
+-    constraint_values = [
+-        "@platforms//cpu:wasm32",
+-    ],
+-    visibility = [":__subpackages__"],
+-)
+-
+-config_setting(
+-    name = "platforms_wasm64",
+-    constraint_values = [
+-        "@platforms//cpu:wasm64",
+-    ],
+-    visibility = [":__subpackages__"],
+-)
+-
+-selects.config_setting_group(
+-    name = "wasm",
+-    match_any = [
+-        ":cpu_wasm",
+-        ":cpu_wasm32",
+-        ":platforms_wasm32",
+-        ":platforms_wasm64",
+-    ],
+-    visibility = [":__subpackages__"],
+-)
+-
+ config_setting(
+     name = "fuchsia",
+     values = {
+diff --git a/absl/base/BUILD.bazel b/absl/base/BUILD.bazel
+index fb008db3..608780ed 100644
+--- a/absl/base/BUILD.bazel
++++ b/absl/base/BUILD.bazel
+@@ -193,7 +193,6 @@ cc_library(
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+-        "//absl:wasm": [],
+         "//conditions:default": ["-pthread"],
+     }) + ABSL_DEFAULT_LINKOPTS,
+     visibility = [
+@@ -262,7 +261,6 @@ cc_library(
+             "-DEFAULTLIB:advapi32.lib",
+             "-ladvapi32",
+         ],
+-        "//absl:wasm": [],
+         "//conditions:default": ["-pthread"],
+     }) + ABSL_DEFAULT_LINKOPTS,
+     deps = [
+diff --git a/absl/debugging/BUILD.bazel b/absl/debugging/BUILD.bazel
+index 42124bfb..a98bcb50 100644
+--- a/absl/debugging/BUILD.bazel
++++ b/absl/debugging/BUILD.bazel
+@@ -173,7 +173,6 @@ cc_test(
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+-        "//absl:wasm": [],
+         "//conditions:default": ["-pthread"],
+     }) + ABSL_DEFAULT_LINKOPTS,
+     deps = [
+diff --git a/absl/random/internal/BUILD.bazel b/absl/random/internal/BUILD.bazel
+index 37f4d6e2..4af83790 100644
+--- a/absl/random/internal/BUILD.bazel
++++ b/absl/random/internal/BUILD.bazel
+@@ -111,7 +111,6 @@ cc_library(
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+-        "//absl:wasm": [],
+         "//conditions:default": ["-pthread"],
+     }) + ABSL_DEFAULT_LINKOPTS,
+     deps = [
+diff --git a/absl/synchronization/BUILD.bazel b/absl/synchronization/BUILD.bazel
+index 0ca94e01..0874dcc8 100644
+--- a/absl/synchronization/BUILD.bazel
++++ b/absl/synchronization/BUILD.bazel
+@@ -116,7 +116,6 @@ cc_library(
+     linkopts = select({
+         "//absl:msvc_compiler": [],
+         "//absl:clang-cl_compiler": [],
+-        "//absl:wasm": [],
+         "//conditions:default": ["-pthread"],
+     }) + ABSL_DEFAULT_LINKOPTS,
+     visibility = ["//visibility:public"],
